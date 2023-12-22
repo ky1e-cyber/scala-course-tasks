@@ -175,8 +175,7 @@ class NonEmpty(val elem: Tweet, val left: TweetSet, val right: TweetSet) extends
       case t: Empty => t.union(this)
       case t: NonEmpty =>
         this.left
-              .union(t)
-              .union(this.right)
+              .union(this.right.union(t))
               .incl(this.elem)
 
 
@@ -241,13 +240,13 @@ class Cons(val head: Tweet, val tail: TweetList) extends TweetList:
 
 
 object GoogleVsApple:
-  private val google: List[String] = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
-  private val apple: List[String] = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
+  val google: List[String] = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
+  val apple: List[String] = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
-  private val all = TweetReader.allTweets
+  val all = TweetReader.allTweets
 
-  private lazy val googleTweets: TweetSet = all.filter(t => google.exists(str => t.text.contains(str)))
-  private lazy val appleTweets: TweetSet = all.filter(t => apple.exists(str => t.text.contains(str)))
+  lazy val googleTweets: TweetSet = all.filter(t => google.exists(str => t.text.contains(str)))
+  lazy val appleTweets: TweetSet = all.filter(t => apple.exists(str => t.text.contains(str)))
 
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
